@@ -1,4 +1,4 @@
-const request = require('request-promise');
+const { fetch } = require('../src/utils/fetch');
 const { SENDER_ID, SERVER_KEY } = require('./keys');
 const { register, listen } = require('../src/index');
 
@@ -57,15 +57,16 @@ describe('Parser', function() {
 });
 
 async function send(notification) {
-  const response = await request({
+  const response = await fetch('https://fcm.googleapis.com/fcm/send', {
     method : 'POST',
-    url    : 'https://fcm.googleapis.com/fcm/send',
-    json   : true,
-    body   : {
+    body   : JSON.stringify({
       to           : credentials.fcm.token,
       notification : notification,
+    }),
+    headers : {
+      Authorization  : `key=${SERVER_KEY}`,
+      'content-type' : 'application/json',
     },
-    headers : { Authorization : `key=${SERVER_KEY}` },
   });
   try {
     expect(response.success).toEqual(1);
