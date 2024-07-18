@@ -71,7 +71,7 @@ async function registerFCM(config) {
         },
       }),
     }
-  ).then((response) => response.json());
+  ).then(response => response.json());
   return {
     keys,
     fcm : responseJson,
