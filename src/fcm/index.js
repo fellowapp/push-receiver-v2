@@ -47,7 +47,7 @@ async function installFCM(config) {
 
 async function registerFCM(config) {
   const keys = await createKeys();
-  const response = await fetch(
+  const responseJson = await fetch(
     `${FCM_REGISTRATION}projects/${config.firebase.projectID}/registrations`,
     {
       method  : 'POST',
@@ -71,10 +71,10 @@ async function registerFCM(config) {
         },
       }),
     }
-  );
+  ).then((response) => response.json());
   return {
     keys,
-    fcm : response,
+    fcm : responseJson,
   };
 }
 
