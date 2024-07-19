@@ -21,7 +21,7 @@ function generateFirebaseFID() {
 }
 
 async function installFCM(config) {
-  const response = await fetch(
+  const responseJson = await fetch(
     `${FIREBASE_INSTALLATION}projects/${
       config.firebase.projectID
     }/installations`,
@@ -41,8 +41,8 @@ async function installFCM(config) {
         sdkVersion  : 'w:0.6.4',
       }),
     }
-  );
-  return response;
+  ).then(response => response.json());
+  return responseJson;
 }
 
 async function registerFCM(config) {
